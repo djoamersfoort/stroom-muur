@@ -26,8 +26,10 @@ const events = new EventSource('/events');
 events.onmessage = (event) => {
   state = JSON.parse(event.data);
 
+  const streamIds = new Set(state.streams.map((s) => s.id));
+
   const toAdd = state.streams.filter((s) => !tiles.has(s.id));
-  const toRemove = Array.from(tiles.keys()).filter((k) => !state.streams.some((s) => s.id === k));
+  const toRemove = tiles.keys().filter((id) => !streamIds.has(id));
 
   toAdd.forEach(createTile);
   toRemove.forEach(removeTile);

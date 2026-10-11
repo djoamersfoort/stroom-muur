@@ -20,7 +20,7 @@ body {
 .status-bar {
   color: white;
   text-align: center;
-  font-size: 1.5rem;
+  font-size: 1.35rem;
 }
 
 .rtmp-url {
@@ -35,12 +35,12 @@ body {
 .tiles {
   --width: 0px;
   --height: 0px;
-  width: 100%;
-  height: 100%;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   align-content: center;
+  overflow: hidden;
+  flex: 1 1 auto;
   gap: 8px;
 }
 
@@ -50,6 +50,8 @@ body {
   width: var(--width);
   height: var(--height);
   background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 0.5rem;
+  overflow: hidden;
 }
 
 .label {
@@ -78,8 +80,59 @@ body {
 }
 
 /* ----------------------------------------------------------
-  STALL ANIMATION
+  ANIMATIONS
 ---------------------------------------------------------- */
+
+@keyframes eyes {
+  0%,
+  15% {
+    background-position:
+      0 0,
+      0 0,
+      0 100%;
+  }
+  20%,
+  40% {
+    background-position:
+      15px 0,
+      0 0,
+      0 100%;
+  }
+  45%,
+  55% {
+    background-position:
+      0 0,
+      0 0,
+      0 100%;
+  }
+  60%,
+  80% {
+    background-position:
+      -15px 0,
+      0 0,
+      0 100%;
+  }
+  85%,
+  100% {
+    background-position:
+      0 0,
+      0 0,
+      0 100%;
+  }
+}
+
+.tiles:empty::after {
+  content: '';
+  height: 90px;
+  aspect-ratio: 2;
+  display: grid;
+  background:
+    radial-gradient(farthest-side, #000 15%, #0000 18%) 0 0/50% 100%,
+    radial-gradient(50% 100% at 50% 160%, #fff 95%, #0000) 0 0 /50% 50%,
+    radial-gradient(50% 100% at 50% -60%, #fff 95%, #0000) 0 100%/50% 50%;
+  background-repeat: repeat-x;
+  animation: eyes 5s infinite linear;
+}
 
 @keyframes loader {
   20% {
