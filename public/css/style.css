@@ -1,0 +1,131 @@
+* {
+  box-sizing: border-box;
+}
+
+:root {
+  background-color: black;
+  font-family: monospace;
+}
+
+body {
+  margin: 0;
+  padding: 8px;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.status-bar {
+  color: white;
+  text-align: center;
+  font-size: 1.5rem;
+}
+
+.rtmp-url {
+  color: greenyellow;
+  font-weight: bold;
+}
+
+/* ----------------------------------------------------------
+  TILES
+---------------------------------------------------------- */
+
+.tiles {
+  --width: 0px;
+  --height: 0px;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-content: center;
+  gap: 8px;
+}
+
+.tile {
+  position: relative;
+  flex: none;
+  width: var(--width);
+  height: var(--height);
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.label {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  margin: 0.75rem;
+  padding: 0.5rem 1rem;
+  border-radius: 9999px;
+  font-weight: 800;
+  font-size: 1.15rem;
+  color: white;
+  background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+
+  &:empty {
+    display: none;
+  }
+}
+
+.tile > video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* ----------------------------------------------------------
+  STALL ANIMATION
+---------------------------------------------------------- */
+
+@keyframes loader {
+  20% {
+    background-position:
+      0% 0%,
+      50% 50%,
+      100% 50%;
+  }
+  40% {
+    background-position:
+      0% 100%,
+      50% 0%,
+      100% 50%;
+  }
+  60% {
+    background-position:
+      0% 50%,
+      50% 100%,
+      100% 0%;
+  }
+  80% {
+    background-position:
+      0% 50%,
+      50% 50%,
+      100% 100%;
+  }
+}
+
+.tile.stalled > video {
+  opacity: 0.25;
+  filter: blur(8px);
+}
+
+.tile.stalled::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 60px;
+  aspect-ratio: 2;
+  --_g: no-repeat radial-gradient(circle closest-side, #fff 90%, #0000);
+  background:
+    var(--_g) 0% 50%,
+    var(--_g) 50% 50%,
+    var(--_g) 100% 50%;
+  background-size: calc(100% / 3) 50%;
+  animation: loader 1s infinite linear;
+}
